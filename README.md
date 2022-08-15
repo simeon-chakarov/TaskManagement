@@ -18,3 +18,5 @@ Features
 - Task - list of tasks that can be maintainable. You can add new task, delete a task, edit existing one and add comments to a task. There can be a multiple comments for every task. The comments for a specific task can be displayed by click on "Comments" action link in "Actions" column. You can also add a new comment for the selected task.
 - Comments - list of all created comments for every existing task. First column of the table display the related task for every comment. You can edit or delete comments from this list. Double click on a comment redirect to corresponding task.
 - Developers - a predefined list of developers. You can assign a developer to each task (either by creating it or by editing it). There can be a multiple tasks assigned to one developer. In the "Developers" table you can inspect the assigned tasks for every developer. You can change the name of any developer via "Edit" action link but you cannot delete or add developers.
+
+Note: The app use Microsoft Identity Framework for authentication. You need to register with a new account first.
