@@ -1,3 +1,5 @@
+Prerequisites: The project use MSSQL for a database layer. You need to install MSSQL server and Visual Studio 2022 in order to start it.
+
 Instalation
 1. Clone the repo (or download the zip file and extract on the local mashine)
 2. Open the solution with Visual Studio 2022
