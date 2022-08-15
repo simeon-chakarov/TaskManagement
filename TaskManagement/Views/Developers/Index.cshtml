@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "Developers";
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+<table id="developers" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>            
+            <th>Actions</th>
+        </tr>
+    </thead>
+</table>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            var table = $("#developers").DataTable({
+                ajax: {
+                    url: "/api/developers",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "name",
+                    },                   
+                    {
+                        data: "id",
+                        render: function (data, type, developer) {
+                            return "<a href='/Tasks/ByDeveloper/" + data + "'>Tasks(" + developer.tasks.length + ")</a>" +
+                                "<a href='/Developers/Edit/" + data + "' style='margin-left:10px;'>Edit</a>";
+                        }
+                    }
+                ]
+            });
+        });
+    </script>
+}
+

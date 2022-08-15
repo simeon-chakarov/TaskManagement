@@ -1,0 +1,103 @@
+﻿@model TaskManagement.ViewModels.TaskManagement.TaskCommentsViewModel
+
+<h2>@Model.Title</h2>
+
+@if (Model.TaskId != null)
+{
+    @Html.ActionLink("Add Comment", "New", "Comments", new { taskId = Model.TaskId }, new { @class = "btn btn-primary", style = "margin-bottom:10px" })
+}
+
+@if (Model.IsTableVisible)
+{
+    <table id="comments" class="table table-bordered table-hover" data-task-id="@Model.TaskId" data-by-task="@Model.IsByTask">
+        <thead>
+            <tr>
+                <td>Related Task</td>
+                <td>Date Added</td>
+                <td>Comment Type</td>
+                <td>Text</td>
+                <td>Reminder Date</td>
+                <td>Actions</td>
+            </tr>
+        </thead>
+    </table>
+}
+else
+{
+    <div class="form-group">
+        <text>There are no comments for this task. </text>
+    </div>
+}
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            var htmlTable = $("#comments");
+            var taskId = htmlTable.attr("data-task-id");
+            var isByTask = htmlTable.attr("data-by-task");
+
+            var table = htmlTable.DataTable({
+                ajax: {
+                    url: "/api/comments/" + taskId,
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "task.name",
+                    },
+                    {
+                        data: "dateAdded",
+                        render: function (data) {
+                            return data.substr(0, 10);
+                        }
+                    },
+                    {
+                        data: "commentType.name",
+                    },
+                    {
+                        data: "text",
+                        render: function (data) {
+                            var add = data.length > 30 ? "..." : "";
+                            return data.substr(0, 30) + add;
+                        }
+                    },
+                    {
+                        data: "reminderDate",
+                        render: function (data) {
+                            return data.substr(0, 10);
+                        }
+                    },
+                    {
+                        data: "id",
+                        render: function (data) {
+                            return "<a href='/Comments/Edit/" + data + "/" + isByTask + "'>Edit</a>" +
+                                "<button class='btn-link js-delete' style='margin-left:5px;' data-comment-id=" + data + ">Delete</button>";
+                        }
+                    }
+                ]
+            });
+
+            htmlTable.on("click", ".js-delete", function () {
+                var button = $(this);
+
+                bootbox.confirm("Are you sure you want to delete this comment?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/comments/" + button.attr("data-comment-id"),
+                            method: "DELETE",
+                            success: function () {
+                                table.row(button.parents("tr")).remove().draw();
+                            }
+                        })
+                    }
+                });
+            });
+
+            $('#comments tbody').on('dblclick', 'tr', function () {
+                var data = table.row(this).data();
+                window.location.href = '@Url.Content("~/Tasks/Edit/")' + data.taskId;
+            });
+        });
+    </script>
+}

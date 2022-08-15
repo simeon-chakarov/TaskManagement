@@ -1,0 +1,22 @@
+﻿@model TaskManagement.ViewModels.TaskManagement.DeveloperFormViewModel
+
+<h2>@Model.Title</h2>
+
+@using (Html.BeginForm("Update", "Developers"))
+{
+    <div class="form-group">
+        @Html.LabelFor(c => c.Name)
+        @Html.TextBoxFor(c => c.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(c => c.Name)
+    </div>
+
+    @Html.HiddenFor(c => c.Id)
+    @Html.AntiForgeryToken();
+    <button type="submit" class="btn btn-primary" style="margin-top:0px;">Save</button>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

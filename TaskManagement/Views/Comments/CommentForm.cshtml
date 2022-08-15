@@ -1,0 +1,58 @@
+﻿@model TaskManagement.ViewModels.TaskManagement.CommentFormViewModel
+
+<h2>@Model.Title</h2>
+
+@using (Html.BeginForm("Create", "Comments"))
+{
+    if (Model.Id > 0)
+    {
+        <div class="form-group">
+            @Html.LabelFor(c => c.DateAdded)
+            @Html.TextBoxFor(c => c.DateAdded, new { @class = "form-control", disabled = "disabled" })
+            @Html.ValidationMessageFor(c => c.DateAdded)
+        </div>
+    }
+    <div class="form-group">
+        @Html.LabelFor(c => c.ReminderDate)
+        @Html.EditorFor(c => c.ReminderDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+        @Html.ValidationMessageFor(c => c.ReminderDate)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(c => c.CommentTypeId)
+        @Html.DropDownListFor(c => c.CommentTypeId, new SelectList(Model.CommentTypes, "Id", "Name"), "Select Comment Type", new { @class = "form-control" })
+        @Html.ValidationMessageFor(c => c.CommentTypeId)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(c => c.Text)
+        @Html.TextAreaFor(c => c.Text, new { @class = "form-control" })
+        @Html.ValidationMessageFor(c => c.Text)
+    </div>
+
+    @Html.HiddenFor(c => c.Id)
+    @Html.HiddenFor(c => c.DateAdded)
+    @Html.HiddenFor(c => c.TaskId)
+    @Html.HiddenFor(c => c.IsByTask)
+    @Html.AntiForgeryToken();
+    <button type="submit" class="btn btn-primary" style="margin-top:0px;">Save</button>
+    if (Model.IsByTask)
+    {
+        @Html.ActionLink("Back", "ByTask", "Comments", new { taskId = Model.TaskId }, new { @class = "btn btn-default" })
+    }
+    else
+    {
+        @Html.ActionLink("Back", "Index", "Comments", null, new { @class = "btn btn-default" })
+    }
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $(".datepicker").datepicker({
+                changemonth: true,
+                changeyear: true
+            });
+        });
+    </script>
+}
