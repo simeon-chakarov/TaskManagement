@@ -72,8 +72,12 @@
                     {
                         data: "description",
                         render: function (data) {
-                            var add = data.length > 30 ? "..." : "";
-                            return data.substr(0, 30) + add;
+                            if (data && data.length > 30) {
+                                return data.substr(0, 30) + "...";
+                            }
+                            else {
+                                return data;
+                            }
                         }
                     },
                     {

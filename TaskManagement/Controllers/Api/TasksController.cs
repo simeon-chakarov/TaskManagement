@@ -10,11 +10,11 @@ namespace TaskManagement.Controllers.Api
 {
     public class TasksController : ApiController
     {
-        private readonly ApplicationDbContext context;
+        private readonly IApplicationDbContext context;
 
-        public TasksController()
+        public TasksController(IApplicationDbContext context)
         {
-            context = new ApplicationDbContext();
+            this.context = context;
         }
 
         protected override void Dispose(bool disposing)

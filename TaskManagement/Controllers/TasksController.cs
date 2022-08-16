@@ -11,11 +11,11 @@ namespace TaskManagement.Controllers
 {
     public class TasksController : Controller
     {
-        private readonly ApplicationDbContext context;
+        private readonly IApplicationDbContext context;
 
-        public TasksController()
+        public TasksController(IApplicationDbContext context)
         {
-            context = new ApplicationDbContext();
+            this.context = context;
         }
 
         protected override void Dispose(bool disposing)
