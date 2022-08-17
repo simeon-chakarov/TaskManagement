@@ -16,6 +16,7 @@ namespace TaskManagement
 
             container.RegisterType<IApplicationDbContext, ApplicationDbContext>();
             container.RegisterType<AccountController>(new InjectionConstructor());
+            container.RegisterType<ManageController>(new InjectionConstructor());
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
             GlobalConfiguration.Configuration.DependencyResolver = new Unity.WebApi.UnityDependencyResolver(container);
